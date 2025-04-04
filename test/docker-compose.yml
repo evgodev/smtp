@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  smtp-server:
+    image: maildev/maildev
+    environment:
+      MAILDEV_SMTP_PORT: 1025
+      MAILDEV_INCOMING_USER: integration-test-user
+      MAILDEV_INCOMING_PASS: integration-test-password
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:1080/healthz", "--spider"]
+      interval: 500ms
+      timeout: 5s
+      retries: 5
+      start_period: 500ms
