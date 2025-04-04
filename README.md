@@ -29,9 +29,7 @@ client := smtp.NewClient(smtp.Options{
 })
 
 // Connect to the SMTP server
-ctx := context.Background()
-err := client.Connect(ctx)
-if err != nil {
+err := err := client.Connect(ctx); if err != nil {
     log.Fatal(err)
 }
 defer client.Close()
@@ -51,14 +49,11 @@ email := smtp.NewEmail(
 // Add attachments (optional)
 email.Attach("document.txt", []byte("This is the attachment content"))
 
-// Build the email
-emailData := email.Build()
-
 // Send the email
 err = client.Send(
     []string{"recipient@example.com"},
     "sender@example.com",
-    emailData,
+    email.Build(), // Build the email
 )
 if err != nil {
     log.Fatal(err)
